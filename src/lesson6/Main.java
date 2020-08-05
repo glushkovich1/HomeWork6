@@ -1,81 +1,91 @@
 package lesson6;
 
-abstract class Animal {
-    private final int MAX_RUN_LENGTH = 0;
-    private final int MAX_SWIM_LENGTH = 0;
-    private final double MAX_JUMP_HEIGTH = 0;
+import java.util.Random;
 
-    abstract void run(int length);
-
-    abstract void swim(int length);
-
-    abstract void jump(double height);
-}
-
-class Cat extends Animal {
-    private final int MAX_RUN_LENGTH = 200;
-    private final double MAX_JUMP_HEIGTH = 2;
-    @Override
-    void run(int length) {
-        if ((length >= 0) && (length <= MAX_RUN_LENGTH)) {
-            System.out.println("run: true");
-        }
-        else System.out.println("run: false");
-    }
-
-    @Override
-    void swim(int length) {
-        System.out.println("swim: false");
-    }
-
-    @Override
-    void jump(double height) {
-        if ((height >= 0) && (height <= MAX_JUMP_HEIGTH)) {
-            System.out.println("jump: true");
-        }
-        else System.out.println("jump: fase");
-    }
-}
-
-class Dog extends Animal {
-    private final int MAX_RUN_LENGTH = 500;
-    private final int MAX_SWIM_LENGTH = 10;
-    private final double MAX_JUMP_HEIGTH = 0.5;
-
-    @Override
-    void run(int length) {
-        if ((length >= 0) && (length <= MAX_RUN_LENGTH)) {
-            System.out.println("run: true");
-        }
-    }
-
-    @Override
-    void swim(int length) {
-        if ((length >= 0) && (length <= MAX_SWIM_LENGTH)) {
-            System.out.println("swim: true");
-        }
-        else System.out.println("swim: false");
-    }
-
-    @Override
-    void jump(double height) {
-        if ((height >= 0) && (height <= MAX_JUMP_HEIGTH)) {
-            System.out.println("jump: true");
-        }
-        else System.out.println("jump: false");
-    }
-}
-
-class HW6 {
+public class Main
+{
     public static void main(String[] args) {
-        Cat cat = new Cat();
-        cat.run(201);
-        cat.swim(1);
-        cat.jump(1.9);
+        Cat cat1 = new Cat("Barsik");
+        Dog dog1 = new Dog("Bobik");
 
-        Dog dog = new Dog();
-        dog.run(500);
-        dog.swim(10);
-        dog.jump(0.4);
+        cat1.info();
+
+        System.out.println();
+
+        dog1.info();
+
+        System.out.println();
+
+        dog1.run(400);
+        dog1.swim(5);
+        dog1.jump(4);
+
+        System.out.println();
+
+        cat1.run(1700);
+        cat1.swim(5);
+        cat1.jump(2);
+    }
+
+    public static class Animals {//super class
+        protected String name;
+        protected String type;
+        protected int maxRun;
+        protected int maxSwim;
+        protected double maxJump;
+        public Random random = new Random();
+
+        public Animals(String name){
+            this.name = name;
+        }
+
+        public void run(int dist) {
+            if (this.maxRun >= dist) {
+                System.out.println(this.type + " " + this.name + " run " + dist + " m.");
+            }
+            else System.out.println(this.type + " " + this.name + " can't run so far.");
+        }
+
+        public void swim(int dist) {
+            if (this.maxSwim >= dist) {
+                System.out.println(this.type + " " + this.name + " swim " + dist + " m.");
+            }
+            else System.out.println(this.type + " " + this.name + " can't swim so far.");
+        }
+
+        public void jump(double height) {
+            if (this.maxJump >= height) {
+                System.out.println(this.type + " " + this.name + " jump " + height + " m.");
+            }
+            else System.out.println(this.type + " " + this.name + " can't jump so high.");
+        }
+
+        public void info() {
+            System.out.println(this.type + " " + this.name + " Run: " + this.maxRun + " m., Swim: " + this.maxSwim + " m., Jump: " + this.maxJump + " m.");
+        }
+    }
+
+    public static class Cat extends Animals {
+        public Cat(String name) {
+            super(name);
+            this.maxJump = 2.0;
+            this.maxRun = random.nextInt(45) + 155;
+            this.type = "Cat";
+        }
+
+        @Override
+        public void swim(int dist) {
+            System.out.println("Cat's no swim!");
+        }
+    }
+
+    public static class Dog extends Animals {
+        public Dog(String name) {
+            super(name);
+            this.type = "Dog";
+            this.maxRun = random.nextInt(300) + 300;
+            this.maxSwim = random.nextInt(6) + 5;
+            this.maxJump = Math.random() * 6 + 0.1;
+        }
     }
 }
